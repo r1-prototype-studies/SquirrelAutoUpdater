@@ -21,7 +21,7 @@ namespace OCRAPITest
 
         private static async Task UpdateApplication()
         {
-            using (var updateManager = UpdateManager.GitHubUpdateManager("https://github.com/r1-prototype-studies/SquirrelAutoUpdater/releases/latest"))
+            using (var updateManager = UpdateManager.GitHubUpdateManager("https://github.com/r1-prototype-studies/SquirrelAutoUpdater"))
             {
                 await updateManager.Result.UpdateApp();
             }

@@ -158,7 +158,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox);
             this.Name = "Form1";
-            this.Text = "Sample Application Upgrade";
+            this.Text = "1.0.3";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
