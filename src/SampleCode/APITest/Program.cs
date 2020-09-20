@@ -13,7 +13,7 @@ namespace OCRAPITest
         [STAThread]
         static void Main()
         {
-            UpdateApplication();
+            Task.Run(() => UpdateApplication());
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
