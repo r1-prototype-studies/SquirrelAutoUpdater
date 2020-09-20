@@ -7,3 +7,4 @@
 
 # References
 * https://github.com/A9T9/Free-OCR-API-CSharp
+* https://github.com/Squirrel/Squirrel.Windows
