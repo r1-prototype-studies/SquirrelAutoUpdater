@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Squirrel;
+using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace OCRAPITest
@@ -11,9 +13,18 @@ namespace OCRAPITest
         [STAThread]
         static void Main()
         {
+            Task.Run(() => UpdateApplication());
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
+        }
+
+        private static async Task UpdateApplication()
+        {
+            using (var updateManager = UpdateManager.GitHubUpdateManager("https://github.com/r1-prototype-studies/SquirrelAutoUpdater/releases/latest"))
+            {
+                await updateManager.Result.UpdateApp();
+            }
         }
     }
 }
