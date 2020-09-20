@@ -3,7 +3,6 @@
 - [Nugets](#nugets)
 - [Steps](#steps)
 - [References](#references)
-- [* https://github.com/Squirrel/Squirrel.Windows](#ullihttpsgithubcomsquirrelsquirrelwindowsliul)
 
 # Nugets
 * Squirrel.Windows
@@ -52,9 +51,5 @@
 
 # References
 * https://github.com/A9T9/Free-OCR-API-CSharp
-<<<<<<< Updated upstream
-* https://github.com/Squirrel/Squirrel.Windows
-=======
 * https://github.com/Squirrel/Squirrel.Windows
 * https://intellitect.com/deploying-app-squirrel/
->>>>>>> Stashed changes
