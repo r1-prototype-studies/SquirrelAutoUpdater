@@ -19,11 +19,11 @@ namespace OCRAPITest
             Application.Run(new Form1());
         }
 
-        private static async Task UpdateApplication()
+        private static void UpdateApplication()
         {
             using (var updateManager = UpdateManager.GitHubUpdateManager("https://github.com/r1-prototype-studies/SquirrelAutoUpdater"))
             {
-                await updateManager.Result.UpdateApp();
+                updateManager.Result.UpdateApp();
             }
         }
     }
