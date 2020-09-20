@@ -132,9 +132,19 @@
     <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
       <Output TaskParameter="Assemblies" ItemName="myAssemblyInfo" />
     </GetAssemblyIdentity>
-    <Exec Command="nuget pack TestApp.nuspec -Version %(myAssemblyInfo.Version) -Properties Configuration=Release -OutputDirectory $(OutDir) -BasePath $(OutDir)" />
-    <Message Text="%($(OutDir)MyApp.$([System.Version]::Parse(%(myAssemblyInfo.Version)).ToString(3)).nupkg)" Importance="high"/>
-    <Exec Command="squirrel --releasify $(OutDir)MyApp.$([System.Version]::Parse(%(myAssemblyInfo.Version)).ToString(3)).nupkg" />
+    <ItemGroup>
+      <NuGetExe Include="..\packages\NuGet.CommandLine.*\tools\nuget.exe" />
+      <SquirrelExe Include="..\packages\Squirrel.Windows.*\tools\squirrel.exe" />
+    </ItemGroup>
+    <PropertyGroup>
+      <ReleaseDir>..\Releases\</ReleaseDir>
+      <SquirrelParams>--no-msi</SquirrelParams>
+      <AppVersion>$([System.Version]::Parse(%(myAssemblyInfo.Version)).ToString(3))</AppVersion>
+    </PropertyGroup>
+    <Error Condition="!Exists(%(NuGetExe.FullPath))" Text="You are trying to use the NuGet.CommandLine package, but it is not installed. Please install NuGet.CommandLine from the Package Manager." />
+    <Error Condition="!Exists(%(SquirrelExe.FullPath))" Text="You are trying to use the Squirrel.Windows package, but it is not installed. Please install Squirrel.Windows from the Package Manager." />
+    <Exec Command="&quot;%(NuGetExe.FullPath)&quot; pack TestApp.nuspec -Version $(AppVersion) -Properties Configuration=Release -OutputDirectory $(OutDir) -BasePath $(OutDir)" />
+    <Exec Command="%(SquirrelExe.FullPath) --releasify $(OutDir)TestApp.$(AppVersion).nupkg --releaseDir=$(ReleaseDir) $(SquirrelParams)" />
   </Target>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

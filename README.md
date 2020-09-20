@@ -40,12 +40,23 @@
 4. Add the below build target to the project
     ```xml
     <Target Name="AfterBuild" Condition=" '$(Configuration)' == 'Release'">
-        <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
-            <Output TaskParameter="Assemblies" ItemName="myAssemblyInfo"/>
-        </GetAssemblyIdentity>
-        <Exec Command="nuget pack MyApp.nuspec -Version %(myAssemblyInfo.Version) -Properties Configuration=Release -OutputDirectory $(OutDir) -BasePath $(OutDir)" />
-        <Exec Command="squirrel --releasify $(OutDir)MyApp.$([System.Version]::Parse(%(myAssemblyInfo.Version)).ToString(3)).nupkg" />
-    </Target>
+    <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
+      <Output TaskParameter="Assemblies" ItemName="myAssemblyInfo" />
+    </GetAssemblyIdentity>
+    <ItemGroup>
+      <NuGetExe Include="..\packages\NuGet.CommandLine.*\tools\nuget.exe" />
+      <SquirrelExe Include="..\packages\Squirrel.Windows.*\tools\squirrel.exe" />
+    </ItemGroup>
+    <PropertyGroup>
+      <ReleaseDir>..\Releases\</ReleaseDir>
+      <SquirrelParams>--no-msi</SquirrelParams>
+      <AppVersion>$([System.Version]::Parse(%(myAssemblyInfo.Version)).ToString(3))</AppVersion>
+    </PropertyGroup>
+    <Error Condition="!Exists(%(NuGetExe.FullPath))" Text="You are trying to use the NuGet.CommandLine package, but it is not installed. Please install NuGet.CommandLine from the Package Manager." />
+    <Error Condition="!Exists(%(SquirrelExe.FullPath))" Text="You are trying to use the Squirrel.Windows package, but it is not installed. Please install Squirrel.Windows from the Package Manager." />
+    <Exec Command="&quot;%(NuGetExe.FullPath)&quot; pack TestApp.nuspec -Version $(AppVersion) -Properties Configuration=Release -OutputDirectory $(OutDir) -BasePath $(OutDir)" />
+    <Exec Command="%(SquirrelExe.FullPath) --releasify $(OutDir)TestApp.$(AppVersion).nupkg --releaseDir=$(ReleaseDir) $(SquirrelParams)" />
+  </Target>
 5.
 
 
@@ -53,3 +64,4 @@
 * https://github.com/A9T9/Free-OCR-API-CSharp
 * https://github.com/Squirrel/Squirrel.Windows
 * https://intellitect.com/deploying-app-squirrel/
+* https://madstt.dk/squirrel-the-basic/
