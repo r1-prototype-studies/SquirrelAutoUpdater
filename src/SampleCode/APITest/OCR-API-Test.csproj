@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>App.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="DeltaCompressionDotNet, Version=1.1.0.0, Culture=neutral, PublicKeyToken=1d14d6e5194e7f4a, processorArchitecture=MSIL">
       <HintPath>..\packages\DeltaCompressionDotNet.1.1.0\lib\net20\DeltaCompressionDotNet.dll</HintPath>
@@ -120,6 +123,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="App.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -138,13 +144,14 @@
     </ItemGroup>
     <PropertyGroup>
       <ReleaseDir>..\Releases\</ReleaseDir>
+      <SetupIcon>..\Assets\setup.ico</SetupIcon>
       <SquirrelParams>--no-msi</SquirrelParams>
       <AppVersion>$([System.Version]::Parse(%(myAssemblyInfo.Version)).ToString(3))</AppVersion>
     </PropertyGroup>
     <Error Condition="!Exists(%(NuGetExe.FullPath))" Text="You are trying to use the NuGet.CommandLine package, but it is not installed. Please install NuGet.CommandLine from the Package Manager." />
     <Error Condition="!Exists(%(SquirrelExe.FullPath))" Text="You are trying to use the Squirrel.Windows package, but it is not installed. Please install Squirrel.Windows from the Package Manager." />
     <Exec Command="&quot;%(NuGetExe.FullPath)&quot; pack TestApp.nuspec -Version $(AppVersion) -Properties Configuration=Release -OutputDirectory $(OutDir) -BasePath $(OutDir)" />
-    <Exec Command="%(SquirrelExe.FullPath) --releasify $(OutDir)TestApp.$(AppVersion).nupkg --releaseDir=$(ReleaseDir) $(SquirrelParams)" />
+    <Exec Command="%(SquirrelExe.FullPath) --releasify $(OutDir)TestApp.$(AppVersion).nupkg --releaseDir=$(ReleaseDir) --setupIcon $(SetupIcon) $(SquirrelParams)" />
   </Target>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

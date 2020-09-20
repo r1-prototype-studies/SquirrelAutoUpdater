@@ -9,7 +9,7 @@
 * NuGet.CommandLine
   
 # Steps
-1. Add the below code to AssemblyInfo.cs
+1. Add the below code to AssemblyInfo.cs -- Remove this for default behavior
    ```csharp
    [assembly: AssemblyMetadata("SquirrelAwareVersion", "1")]
 2. Add the below code in program main method
