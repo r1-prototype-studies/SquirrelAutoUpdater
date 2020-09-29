@@ -1,4 +1,6 @@
-﻿namespace OCRAPITest
+﻿using System.Reflection;
+
+namespace OCRAPITest
 {
     partial class Form1
     {
@@ -158,7 +160,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox);
             this.Name = "Form1";
-            this.Text = System.DateTime.UtcNow.ToLocalTime().ToString();
+            this.Text = $"{Assembly.GetExecutingAssembly().GetName().Version} { System.DateTime.UtcNow.ToLocalTime().ToString()}";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
