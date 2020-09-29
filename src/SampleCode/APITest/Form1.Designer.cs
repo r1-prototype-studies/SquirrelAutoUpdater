@@ -76,7 +76,7 @@
             // button2
             // 
             this.button2.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.button2.Location = new System.Drawing.Point(284, 132);
+            this.button2.Location = new System.Drawing.Point(284, 45);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 61);
             this.button2.TabIndex = 3;
@@ -158,7 +158,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox);
             this.Name = "Form1";
-            this.Text = "1.0.3";
+            this.Text = System.DateTime.UtcNow.ToLocalTime().ToString();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
