@@ -9,9 +9,11 @@
     <description>This is a sample application</description>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <copyright>Copyright 2020</copyright>
+    <icon>Images\App.ico</icon>
     <dependencies />
   </metadata>
   <files>
+    <file src="..\..\App.ico" target="Images\" />
     <file src="*.*" target="lib\net45\" exclude="*.pdb;*.nupkg;*.vshost.*"/>
   </files>
 </package>
