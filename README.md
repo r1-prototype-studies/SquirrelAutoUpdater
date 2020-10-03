@@ -14,9 +14,15 @@
    [assembly: AssemblyMetadata("SquirrelAwareVersion", "1")]
 2. Add the below code in program main method
     ```csharp
-    using (var mgr = UpdateManager.GitHubUpdateManager("https://github.com/r1-prototype-studies/SquirrelAutoUpdater/releases/latest"))
-            {
-        await mgr.Result.UpdateApp();
+    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+    using (var updateManager = await UpdateManager.GitHubUpdateManager("https://github.com/r1-prototype-studies/SquirrelAutoUpdater"))
+    {
+      MessageBox.Show(updateManager.RootAppDirectory);
+      MessageBox.Show($"Current version: {updateManager.CurrentlyInstalledVersion().Version}");
+      UpdateInfo updateInfo = await updateManager.CheckForUpdate();
+      MessageBox.Show("UpdateInfo version: " + updateInfo.FutureReleaseEntry.Version.ToString());
+      var releaseEntry = await updateManager.UpdateApp();
+      //MessageBox.Show($"Update Version: {releaseEntry?.Version.ToString() ?? "No update"}");
     }
 3. Create a .nuspec file
     ```xml
@@ -49,15 +55,17 @@
     </ItemGroup>
     <PropertyGroup>
       <ReleaseDir>..\Releases\</ReleaseDir>
+      <SetupIcon>..\Assets\setup.ico</SetupIcon>
       <SquirrelParams>--no-msi</SquirrelParams>
       <AppVersion>$([System.Version]::Parse(%(myAssemblyInfo.Version)).ToString(3))</AppVersion>
     </PropertyGroup>
     <Error Condition="!Exists(%(NuGetExe.FullPath))" Text="You are trying to use the NuGet.CommandLine package, but it is not installed. Please install NuGet.CommandLine from the Package Manager." />
     <Error Condition="!Exists(%(SquirrelExe.FullPath))" Text="You are trying to use the Squirrel.Windows package, but it is not installed. Please install Squirrel.Windows from the Package Manager." />
     <Exec Command="&quot;%(NuGetExe.FullPath)&quot; pack TestApp.nuspec -Version $(AppVersion) -Properties Configuration=Release -OutputDirectory $(OutDir) -BasePath $(OutDir)" />
-    <Exec Command="%(SquirrelExe.FullPath) --releasify $(OutDir)TestApp.$(AppVersion).nupkg --releaseDir=$(ReleaseDir) $(SquirrelParams)" />
+    <Exec Command="%(SquirrelExe.FullPath) --releasify $(OutDir)TestApp.$(AppVersion).nupkg --releaseDir=$(ReleaseDir) --setupIcon $(SetupIcon) $(SquirrelParams)" />
   </Target>
-5.
+5. Create a Release in Github. Upload the release, full and delta nuget packages.
+  Refer https://github.com/r1-prototype-studies/SquirrelAutoUpdater/releases
 
 
 # References
